@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>집터뷰 - 전세사기 예방 솔루션</title>
+    <link rel="icon" type="image/png" href="images/favicon.png" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -13,28 +14,37 @@
     <!-- Header -->
     <header class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
         <div class="container">
-                <a class="navbar-brand fw-bold" href="#">
-                    <img src="images/logo_hlook.PNG" alt="집터뷰 로고" height="40">
-                </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand fw-bold" href="#">
+                <img src="images/logos.png" alt="집터뷰 로고" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#main-service">위험도 검토</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#guideline">피해예방 가이드</a>
-                    </li>
-                    <li class="nav-item">
-                        <button class="btn btn-primary-custom ms-lg-3" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
-                    </li>
-                </ul>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title fw-bold" id="offcanvasNavbarLabel">메뉴</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas">
+                    </button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#main-service">위험도 검토</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#guideline">피해예방 가이드</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#faq">자주 묻는 질문</a>
+                        </li>
+                        <li class="nav-item mt-3 mt-lg-0">
+                            <button class="btn btn-primary-custom ms-lg-3 w-100" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
+    </div>
     </header>
-
     <!-- Main Service Section -->
     <main id="main-service" class="container mt-5 pt-5 text-center">
         <div class="row justify-content-center">
@@ -114,7 +124,91 @@
         </div>
     </section>
 
+    <!-- Q&A Section -->
+    <section id="faq" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">자주 묻는 질문 (Q&A)</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <!-- Q1 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    Q. 전월세 계약 전 검토가 왜 필요한가요?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    전월세 계약은 등기부등본, 건축물대장 등 서류 확인만으로는
+                                    파악하기 어려운 잠재적 위험이 많습니다. 예를 들어, 집주인의 세금 체납 여부, 악성 임대인 등록
+                                    여부, 해당 건물의 과거 계약 문제 등을 종합적으로 분석하여 보증금을 안전하게 지킬 수 있는지
+                                    사전에 확인해야 합니다. '집터뷰'는 이러한 복합적인 위험 요소를 분석하여 안전한 계약을 돕습니다.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Q2 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    Q. 매매 계약 검토는 왜 필요한가요?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    매매 계약은 전월세보다 훨씬 큰 금액이 오고 가기 때문에 더욱
+                                    신중한 접근이 필요합니다. 불법 건축물 여부, 부동산 권리 관계의 복잡성, 실거래가와 비교한 가격의
+                                    적정성 등 법률적, 재무적 리스크를 종합적으로 검토해야 합니다. 잘못된 계약으로 인한 재산상의
+                                    손실을 예방하기 위해 전문가 수준의 검토는 필수적입니다.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Q3 -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button collapsed" type="button"
+                                    data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    Q. 계약서 검토만으로 전세사기 예방이 가능한가요?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    완벽한 예방은 어렵지만, 대부분의 피해를 막을 수 있습니다. 많은
+                                    전세사기가 표준적이지 않은 특약사항이나 독소 조항을 통해 발생합니다. 계약 단계별로 확인해야 할
+                                    법적 사항과 필수 특약(예: '잔금 지급 익일까지 현재 등기 상태 유지' 등)을 꼼꼼히 검토하는
+                                    것만으로도 위험을 크게 줄일 수 있습니다. '집터뷰'의 가이드라인은 이러한 핵심 체크리스트를
+                                    제공하여 사용자의 안전한 계약을 지원합니다.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Footer -->
+    <footer class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="fw-bold">회사 소개</h5>
+                    <p class="text-muted">집터뷰는 전월세 계약의 안전성을 높이기 위해 다양한 정보를 제공합니다.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="fw-bold">연락처</h5>
+                    <p class="text-muted">이메일: support@jipterview.com</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <footer class="py-4 bg-white">
         <div class="container text-center text-muted">
             <p>&copy; 2025 Jipterview. All Rights Reserved.</p>
