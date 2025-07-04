@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>집터뷰 - 전세사기 예방 솔루션</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white fixed-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">집터뷰</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#main-service">위험도 검토</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#guideline">피해예방 가이드</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn btn-primary-custom ms-lg-3" data-bs-toggle="modal" data-bs-target="#loginModal">로그인</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Service Section -->
+    <main id="main-service" class="container mt-5 pt-5 text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="display-4 fw-bold mb-3">계약 전, <span class="text-primary-custom">집터뷰</span> 하세요.</h1>
+                <p class="lead mb-5">주소와 계약 조건 입력만으로<br>전월세 및 매매 계약의 법적 위험도를 분석해 드립니다.</p>
+
+                <div class="card p-4 shadow-lg">
+                    <div class="card-body">
+                        <div class="btn-group w-100 mb-4" role="group">
+                            <input type="radio" class="btn-check" name="deal-type" id="jeonwolse" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary-custom btn-lg" for="jeonwolse">전월세</label>
+
+                            <input type="radio" class="btn-check" name="deal-type" id="maemae" autocomplete="off">
+                            <label class="btn btn-outline-primary-custom btn-lg" for="maemae">매매</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <input type="text" class="form-control form-control-lg" placeholder="검토할 부동산 주소를 입력하세요. (예: 서울시 강남구 역삼동)">
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg" placeholder="계약금 (만원)">
+                            </div>
+                            <div class="col">
+                                <input type="text" class="form-control form-control-lg" placeholder="월세 (만원)">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary-custom btn-lg w-100" data-bs-toggle="modal" data-bs-target="#reportModal">집터뷰 시작하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Guideline Section -->
+    <section id="guideline" class="py-5 mt-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">전월세 사기 피해예방 가이드</h2>
+                <p class="text-muted">계약 단계별 체크리스트를 확인하고 안전하게 계약하세요.</p>
+            </div>
+            <!-- This section will be populated with Markdown content later -->
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5 class="fw-bold">STEP 1. 계약 전</h5>
+                        <ul>
+                            <li>등기부등본 확인 (소유자, 근저당권 등)</li>
+                            <li>건축물대장 확인 (불법 건축물 여부)</li>
+                            <li>공인중개사 정보 확인</li>
+                            <li>주변 시세 확인</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5 class="fw-bold">STEP 2. 계약 당일</h5>
+                        <ul>
+                            <li>집주인 신분증 확인</li>
+                            <li>계약서 특약사항 꼼꼼히 확인</li>
+                            <li>계약금은 임대인 명의 계좌로 송금</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h5 class="fw-bold">STEP 3. 잔금 및 이사</h5>
+                        <ul>
+                            <li>잔금 치르기 전 등기부등본 재확인</li>
+                            <li>이사 직후 전입신고 및 확정일자 받기</li>
+                            <li>전월세 보증금 반환보증 가입</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4 bg-white">
+        <div class="container text-center text-muted">
+            <p>&copy; 2025 Jipterview. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Report Modal -->
+    <div class="modal fade" id="reportModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">집터뷰 위험도 분석 레포트</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Report content will be loaded here -->
+                    <p>분석 중입니다...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">로그인</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>로그인 기능은 준비 중입니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
