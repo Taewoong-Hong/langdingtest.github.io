@@ -3,8 +3,13 @@
     --secondary-color: #F3F4F6; /* Light Gray */
 }
 
+
 body {
     font-family: 'Pretendard', sans-serif;
+    min-width: 360px;
+    /* 헤더의 높이만큼 body 상단에 전체적인 여백을 줍니다.
+       헤더 높이가 약 70px 정도 되므로 넉넉하게 5rem (80px) 정도를 줍니다. */
+    padding-top: 5rem;
 }
 
 .btn-primary-custom {
