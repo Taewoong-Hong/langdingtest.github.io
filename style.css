@@ -90,3 +90,10 @@ body {
     background: var(--primary-color);
     z-index: 1;
 }
+
+/* style.css 파일의 body 선택자 안에 추가 */
+
+body {
+    font-family: 'Pretendard', sans-serif;
+    min-width: 360px; 
+}
