@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>신청자 목록</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            background-color: #ffffff;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+            text-align: left;
+        }
+        th {
+            background-color: #4a69bd;
+            color: #ffffff;
+            font-weight: bold;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e2e8f0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>신청자 목록</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>이름</th>
+                    <th>연락처</th>
+                    <th>이메일</th>
+                    <th>신청일시</th>
+                </tr>
+            </thead>
+            <tbody id="submissions-table-body">
+                <!-- 데이터가 여기에 동적으로 추가됩니다. -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/submissions')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    const tableBody = document.getElementById('submissions-table-body');
+                    tableBody.innerHTML = ''; // 기존 내용을 비웁니다.
+                    if (result.data && result.data.length > 0) {
+                        result.data.forEach(submission => {
+                            const row = document.createElement('tr');
+                            const formattedDate = new Date(submission.created_at).toLocaleString('ko-KR');
+                            row.innerHTML = `
+                                <td>${submission.id}</td>
+                                <td>${submission.name}</td>
+                                <td>${submission.phone}</td>
+                                <td>${submission.email}</td>
+                                <td>${formattedDate}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        const row = document.createElement('tr');
+                        row.innerHTML = '<td colspan="5" style="text-align: center;">신청 내역이 없습니다.</td>';
+                        tableBody.appendChild(row);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching submissions:', error);
+                    const tableBody = document.getElementById('submissions-table-body');
+                    const row = document.createElement('tr');
+                    row.innerHTML = '<td colspan="5" style="text-align: center;">데이터를 불러오는 중 오류가 발생했습니다.</td>';
+                    tableBody.appendChild(row);
+                });
+        });
+    </script>
+</body>
+</html>
