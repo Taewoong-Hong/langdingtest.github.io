@@ -1,37 +1,60 @@
-// api/search-address.js 로 분리하거나, 아래처럼 단일 핸들러로 구성
+async function searchAddressByMois() {
+    const keyword = document.getElementById('address').value.trim();
+    if (!keyword) return alert("주소를 입력해주세요.");
 
-const axios = require('axios');
-const cors = require('cors');
+    try {
+        const res = await fetch(`/api/search-address?keyword=${encodeURIComponent(keyword)}`);
+        const data = await res.json();
+        const juso = data?.results?.juso;
 
-// Vercel은 Express 전체를 사용하는 게 아니라 handler 함수만 사용
-module.exports = async (req, res) => {
-// CORS 설정
-res.setHeader('Access-Control-Allow-Origin', '*');
-res.setHeader('Access-Control-Allow-Methods', 'GET');
-res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+        if (!juso || juso.length === 0) {
+            alert("검색 결과가 없습니다.");
+            return;
+        }
 
-// Preflight 요청 처리
-if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+        const suggestionsBox = document.getElementById('addressSuggestions');
+        suggestionsBox.innerHTML = '';
+        document.getElementById('confirmedAddressDisplay').style.display = 'none';
+        document.getElementById('dongHosuSelection').style.display = 'none';
+
+        juso.forEach(item => {
+            const addr = item.roadAddr || item.jibunAddr || '';
+            const btn = document.createElement('button');
+            btn.className = 'list-group-item list-group-item-action';
+            btn.textContent = addr;
+            btn.onclick = () => handleAddressSelect(item);
+            suggestionsBox.appendChild(btn);
+        });
+
+        const modal = new bootstrap.Modal(document.getElementById('addressDetailModal'));
+        modal.show();
+    } catch (error) {
+        alert("API 호출 중 오류가 발생했습니다.");
+        console.error(error);
+    }
 }
 
-if (req.method !== 'GET') {
-    return res.status(405).json({ error: 'Method Not Allowed' });
-}
+function handleAddressSelect(item) {
+    const addr = item.roadAddr || item.jibunAddr;
+    document.getElementById('confirmedAddress').innerText = addr;
+    document.getElementById('confirmedAddressDisplay').style.display = 'block';
+    document.getElementById('dongHosuSelection').style.display = 'flex';
 
-const { keyword } = req.query;
-if (!keyword) {
-    return res.status(400).json({ error: 'Keyword is required' });
-}
+    const jibun = item.jibunAddr || '';
+    const match = jibun.match(/(\d+동)\s?(\d+호)?/);
+    const dong = match?.[1] || '기타';
+    const hosu = match?.[2] || '기타';
 
-try {
-    const apiKey = 'devU01TX0FVVEgyMDI1MDcwNTE0MDg0MjExNTkxNDg=';
-    const apiUrl = `https://www.juso.go.kr/addrlink/addrLinkApi.do?confmKey=${apiKey}&keyword=${encodeURIComponent(keyword)}&resultType=json`;
+    state.dongList = [dong];
+    state.hosuMap = { [dong]: [hosu] };
 
-    const response = await axios.get(apiUrl);
-    res.status(200).json(response.data);
-} catch (error) {
-    console.error('Address API error:', error);
-    res.status(500).json({ error: 'Failed to fetch address data' });
+    // 동 셀렉트 박스 채우기
+    const dongSelect = document.getElementById('dongSelect');
+    dongSelect.innerHTML = '';
+    const option = document.createElement('option');
+    option.value = dong;
+    option.textContent = dong;
+    dongSelect.appendChild(option);
+
+    updateHosuOptions();
 }
-};
