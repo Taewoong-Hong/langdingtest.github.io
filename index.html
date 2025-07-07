@@ -176,7 +176,7 @@
         </div>
     </section>
     <!-- Footer -->
-    <footer class="py-5">
+    <footer class="py-5 bg-white">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -188,12 +188,7 @@
                     <p class="text-muted">이메일: support@jipterview.com</p>
                 </div>
             </div>
-        </div>
-    </footer>
-
-    <footer class="py-4 bg-white">
-        <div class="container text-center text-muted">
-            <p>&copy; 2025 Jipterview. All Rights Reserved.</p>
+                <p class="text-center text-muted mt-4">&copy; 2025 Jipterview. All Rights Reserved.</p>
         </div>
     </footer>
 
@@ -207,12 +202,12 @@
         </div>
         <div class="modal-body">
             <p class="text-lg">검색된 주소: <span id="confirmedAddress" class="fw-semibold"></span></p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
+            <div class="row g-4">
+            <div class="col-md-6">
                 <label for="dongSelect" class="form-label">동 선택</label>
                 <select id="dongSelect" class="form-select" onchange="updateHosuOptions()"></select>
             </div>
-            <div>
+            <div class="col-md-6">
                 <label for="hosuSelect" class="form-label">호수 선택</label>
                 <select id="hosuSelect" class="form-select"></select>
             </div>
@@ -234,11 +229,19 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <button class="btn btn-outline-primary-custom py-3" onclick="selectContractType('전세')">전세</button>
-            <button class="btn btn-outline-primary-custom py-3" onclick="selectContractType('반전세')">반전세</button>
-            <button class="btn btn-outline-primary-custom py-3" onclick="selectContractType('월세')">월세</button>
-            <button class="btn btn-outline-primary-custom py-3" onclick="selectContractType('매매')">매매</button>
+            <div class="row g-3">
+            <div class="col-6 col-md-3">
+                <button class="btn btn-outline-primary-custom w-100 py-3" onclick="selectContractType('전세')">전세</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <button class="btn btn-outline-primary-custom w-100 py-3" onclick="selectContractType('반전세')">반전세</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <button class="btn btn-outline-primary-custom w-100 py-3" onclick="selectContractType('월세')">월세</button>
+            </div>
+            <div class="col-6 col-md-3">
+                <button class="btn btn-outline-primary-custom w-100 py-3" onclick="selectContractType('매매')">매매</button>
+            </div>
             </div>
         </div>
         <div class="modal-footer justify-content-between">
@@ -277,10 +280,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <button class="btn btn-outline-primary-custom py-3">계약 예정</button>
-            <button class="btn btn-outline-primary-custom py-3">현재 거주</button>
-            <button class="btn btn-outline-primary-custom py-3">둘러보기 중</button>
+            <div class="row g-3">
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary-custom w-100 py-3">계약 예정</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary-custom w-100 py-3">현재 거주</button>
+            </div>
+            <div class="col-md-4">
+                <button class="btn btn-outline-primary-custom w-100 py-3">둘러보기 중</button>
+            </div>
             </div>
         </div>
         <div class="modal-footer justify-content-between">
@@ -323,7 +332,7 @@
             document.getElementById('confirmedAddress').innerText = keyword;
 
             try {
-                const res = await fetch(`https://www.juso.go.kr/addrlink/addrLinkApi.do?confmKey=devU01TX0FVVEgyMDI1MDcwNTE0MDg0MjExNTkxNDg%3D&keyword=${encodeURIComponent(keyword)}&resultType=json`);
+                const res = await fetch(`/api/search-address?keyword=${encodeURIComponent(keyword)}`);
                 const data = await res.json();
                 const juso = data?.results?.juso;
 
@@ -416,5 +425,4 @@
         }
     </script>
 </body>
-</html>< ! - -   f o r c e   r e b u i l d   - - >  
- 
+</html>
