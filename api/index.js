@@ -12,10 +12,7 @@ const app = express();
 app.use(cors()); // 모든 도메인에서의 요청을 허용하도록 CORS 설정
 app.use(express.json()); // JSON 형태의 요청 본문을 파싱하도록 설정
 
-// Vercel은 빌드 시점에 public 폴더를 루트로 옮깁니다.
-// 따라서 정적 파일 경로는 public을 기준으로 설정하면 안됩니다.
-// 대신, 프로젝트 루트에 있는 파일들을 직접 서비스하도록 설정합니다.
-app.use(express.static(path.join(__dirname, '..', 'public')));
+
 
 
 // 주소 검색 API 라우트
@@ -39,4 +36,6 @@ app.get('/api/search-address', async (req, res) => {
 });
 
 // Vercel 환경에서 Express 앱을 내보냅니다.
-module.exports = app;
+module.exports = (req, res) => {
+    app(req, res);
+};
