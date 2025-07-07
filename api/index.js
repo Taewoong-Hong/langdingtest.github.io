@@ -1,41 +1,37 @@
+// api/search-address.js 로 분리하거나, 아래처럼 단일 핸들러로 구성
 
-// 필요한 모듈들을 가져옵니다.
-const express = require('express'); // 웹 프레임워크
-const cors = require('cors'); // CORS(Cross-Origin Resource Sharing)를 처리하기 위한 모듈
-const axios = require('axios'); // HTTP 클라이언트
-const path = require('path');
+const axios = require('axios');
+const cors = require('cors');
 
-// Express 애플리케이션을 생성합니다.
-const app = express();
+// Vercel은 Express 전체를 사용하는 게 아니라 handler 함수만 사용
+module.exports = async (req, res) => {
+// CORS 설정
+res.setHeader('Access-Control-Allow-Origin', '*');
+res.setHeader('Access-Control-Allow-Methods', 'GET');
+res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-// 미들웨어를 설정합니다.
-app.use(cors()); // 모든 도메인에서의 요청을 허용하도록 CORS 설정
-app.use(express.json()); // JSON 형태의 요청 본문을 파싱하도록 설정
+// Preflight 요청 처리
+if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+}
 
+if (req.method !== 'GET') {
+    return res.status(405).json({ error: 'Method Not Allowed' });
+}
 
+const { keyword } = req.query;
+if (!keyword) {
+    return res.status(400).json({ error: 'Keyword is required' });
+}
 
+try {
+    const apiKey = 'devU01TX0FVVEgyMDI1MDcwNTE0MDg0MjExNTkxNDg=';
+    const apiUrl = `https://www.juso.go.kr/addrlink/addrLinkApi.do?confmKey=${apiKey}&keyword=${encodeURIComponent(keyword)}&resultType=json`;
 
-// 주소 검색 API 라우트
-app.get('/api/search-address', async (req, res) => {
-    const { keyword } = req.query;
-    if (!keyword) {
-        return res.status(400).json({ error: 'Keyword is required' });
-    }
-
-    try {
-        // 중요: 실제 배포 시에는 이 API 키를 Vercel의 환경 변수로 옮겨야 합니다.
-        const apiKey = 'devU01TX0FVVEgyMDI1MDcwNTE0MDg0MjExNTkxNDg='; 
-        const apiUrl = `https://www.juso.go.kr/addrlink/addrLinkApi.do?confmKey=${apiKey}&keyword=${encodeURIComponent(keyword)}&resultType=json`;
-        
-        const response = await axios.get(apiUrl);
-        res.json(response.data);
-    } catch (error) {
-        console.error('Address API error:', error);
-        res.status(500).json({ error: 'Failed to fetch address data' });
-    }
-});
-
-// Vercel 환경에서 Express 앱을 내보냅니다.
-module.exports = (req, res) => {
-    app(req, res);
+    const response = await axios.get(apiUrl);
+    res.status(200).json(response.data);
+} catch (error) {
+    console.error('Address API error:', error);
+    res.status(500).json({ error: 'Failed to fetch address data' });
+}
 };
