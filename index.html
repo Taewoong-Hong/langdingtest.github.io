@@ -201,16 +201,19 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <p class="text-lg">검색된 주소: <span id="confirmedAddress" class="fw-semibold"></span></p>
-            <div class="row g-4">
-            <div class="col-md-6">
-                <label for="dongSelect" class="form-label">동 선택</label>
-                <select id="dongSelect" class="form-select" onchange="updateHosuOptions()"></select>
+            <div id="addressSuggestions" class="list-group mb-3">
+                <!-- 주소 후보들이 여기에 동적으로 추가됩니다. -->
             </div>
-            <div class="col-md-6">
-                <label for="hosuSelect" class="form-label">호수 선택</label>
-                <select id="hosuSelect" class="form-select"></select>
-            </div>
+            <p id="confirmedAddressDisplay" class="text-lg" style="display: none;">선택된 주소: <span id="confirmedAddress" class="fw-semibold"></span></p>
+            <div id="dongHosuSelection" class="row g-4" style="display: none;">
+                <div class="col-md-6">
+                    <label for="dongSelect" class="form-label">동 선택</label>
+                    <select id="dongSelect" class="form-select" onchange="updateHosuOptions()"></select>
+                </div>
+                <div class="col-md-6">
+                    <label for="hosuSelect" class="form-label">호수 선택</label>
+                    <select id="hosuSelect" class="form-select"></select>
+                </div>
             </div>
         </div>
         <div class="modal-footer justify-content-end">
@@ -341,36 +344,21 @@
                     return;
                 }
 
-                // 동 리스트 추출
-                const dongSet = new Set();
-                const hosuMap = {};
+                const addressSuggestionsDiv = document.getElementById('addressSuggestions');
+                addressSuggestionsDiv.innerHTML = ''; // 기존 내용 비우기
+                document.getElementById('confirmedAddressDisplay').style.display = 'none';
+                document.getElementById('dongHosuSelection').style.display = 'none';
 
                 juso.forEach(item => {
-                    const jibun = item.jibunAddr || '';
-                    const match = jibun.match(/(\d+동)\s?(\d+호)?/);
-                    if (match) {
-                        const dong = match[1];
-                        const hosu = match[2] || '기타';
-                        dongSet.add(dong);
-                        if (!hosuMap[dong]) hosuMap[dong] = [];
-                        if (!hosuMap[dong].includes(hosu)) hosuMap[dong].push(hosu);
-                    }
+                    const addressDiv = document.createElement('div');
+                    addressDiv.className = 'list-group-item list-group-item-action';
+                    addressDiv.innerHTML = `
+                        <h6 class="mb-1">${item.roadAddr || item.jibunAddr}</h6>
+                        <small class="text-muted">지번: ${item.jibunAddr}</small>
+                    `;
+                    addressDiv.onclick = () => selectAddress(item);
+                    addressSuggestionsDiv.appendChild(addressDiv);
                 });
-
-                state.dongList = Array.from(dongSet);
-                state.hosuMap = hosuMap;
-
-                // 동 셀렉트 박스 채우기
-                const dongSelect = document.getElementById('dongSelect');
-                dongSelect.innerHTML = '';
-                state.dongList.forEach(dong => {
-                    const option = document.createElement('option');
-                    option.value = dong;
-                    option.textContent = dong;
-                    dongSelect.appendChild(option);
-                });
-
-                updateHosuOptions();
 
                 const modal = new bootstrap.Modal(document.getElementById('addressDetailModal'));
                 modal.show();
@@ -378,6 +366,48 @@
                 alert("API 호출 중 오류가 발생했습니다.");
                 console.error(error);
             }
+        }
+
+        function selectAddress(selectedItem) {
+            const confirmedAddressSpan = document.getElementById('confirmedAddress');
+            const confirmedAddressDisplayDiv = document.getElementById('confirmedAddressDisplay');
+            const dongHosuSelectionDiv = document.getElementById('dongHosuSelection');
+            const addressSuggestionsDiv = document.getElementById('addressSuggestions');
+
+            confirmedAddressSpan.innerText = selectedItem.roadAddr || selectedItem.jibunAddr;
+            confirmedAddressDisplayDiv.style.display = 'block';
+            dongHosuSelectionDiv.style.display = 'block';
+            addressSuggestionsDiv.style.display = 'none'; // 주소 후보 숨기기
+
+            // 동 리스트 추출
+            const dongSet = new Set();
+            const hosuMap = {};
+
+            // 선택된 주소에 대한 동/호수 정보만 처리
+            const jibun = selectedItem.jibunAddr || '';
+            const match = jibun.match(/(\d+동)\s?(\d+호)?/);
+            if (match) {
+                const dong = match[1];
+                const hosu = match[2] || '기타';
+                dongSet.add(dong);
+                if (!hosuMap[dong]) hosuMap[dong] = [];
+                if (!hosuMap[dong].includes(hosu)) hosuMap[dong].push(hosu);
+            }
+
+            state.dongList = Array.from(dongSet);
+            state.hosuMap = hosuMap;
+
+            // 동 셀렉트 박스 채우기
+            const dongSelect = document.getElementById('dongSelect');
+            dongSelect.innerHTML = '';
+            state.dongList.forEach(dong => {
+                const option = document.createElement('option');
+                option.value = dong;
+                option.textContent = dong;
+                dongSelect.appendChild(option);
+            });
+
+            updateHosuOptions();
         }
 
         function updateHosuOptions() {
